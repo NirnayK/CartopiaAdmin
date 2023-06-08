@@ -8,13 +8,15 @@ const SignInButton = () => {
     if (session) {
         return (
             <>
-                <button className="bg-gray-500 hover:bg-gray-600 rounded-md px-4 py-2 text-white" onClick={() => signOut()}>LogOut</button>
+                <button className="bg-gray-500 hover:bg-gray-600 rounded-md px-4 py-2 text-white" onClick={() => signOut()}>
+                    Log Out
+                </button>
             </>
         )
     }
     return (
         <button className="bg-green-500 hover:bg-green-600 text-white rounded-md px-4 py-2" onClick={() => signIn('google')}>
-            LogIn
+            Log In
         </button >
     )
 }
