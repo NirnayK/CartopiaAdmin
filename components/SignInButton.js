@@ -3,19 +3,20 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 const SignInButton = () => {
 
-    const { data: session } = useSession()
+    const { data: session } = useSession();
+    const name = "bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150";
 
     if (session) {
         return (
             <>
-                <button className="bg-gray-500 hover:bg-gray-600 rounded-md px-4 py-2 text-white" onClick={() => signOut()}>
+                <button className={name} onClick={() => signOut()}>
                     Log Out
                 </button>
             </>
         )
     }
     return (
-        <button className="bg-green-500 hover:bg-green-600 text-white rounded-md px-4 py-2" onClick={() => signIn('google')}>
+        <button className={name} onClick={() => signIn('google')}>
             Log In
         </button >
     )
