@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import CustomSessionProvider from '@/components/CustomSessionProvider'
+import { AdminNav } from '@/components/AdminNav'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,11 +11,17 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en" className="bg-white">
       <CustomSessionProvider>
         <body className={inter.className}>
-          {children}
+          <div className="bg-blue-500 min-h-screen flex">
+            <AdminNav />
+            <div className="bg-white flex-grow mt-2 mr-2 mb-2 rounded-lg p-4">
+              {children}
+            </div>
+          </div>
         </body>
       </CustomSessionProvider>
     </html>
