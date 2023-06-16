@@ -20,3 +20,29 @@ body {
   color: rgb(var(--foreground-rgb));
 
 }
+
+input,
+textarea {
+  @apply border-2 border-gray-200 rounded-md p-1 mb-2 w-full;
+}
+
+input:focus,
+textarea:focus {
+  @apply border-gray-700;
+}
+
+button {
+  @apply font-bold uppercase text-sm px-6 py-3 rounded-full;
+}
+
+button:hover {
+  @apply shadow shadow-lg outline-none;
+}
+
+button:focus {
+  @apply mr-1 mb-1 ease-linear transition-all duration-150;
+}
+
+label {
+  @apply block mb-1 text-lg text-gray-700;
+}
