@@ -1,4 +1,5 @@
 'use client';
+import Form from '@/components/Form';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -8,37 +9,33 @@ const ComCat = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = { name };
-
+        console.log(data);
         try {
-            await axios.post('/api/categories', data);
+            await axios.post('/api/companies', data);
+            console.log(data);
             // Clear form inputs after successful submission
             setName('');
-            // Display success message or perform any desired actions
-        } catch (error) {
-            console.log('Yes the issue is in here.');
-            console.error('Error submitting company name:', error);
-            // Display error message or perform any error handling
+        }
+        catch (error) {
+            console.error('Error submitting companies name:', error);
         }
     };
 
+    const formdata = {
+        name: name,
+        setName: setName,
+        enableCategory: false,
+        enableCompany: false,
+        enablePrice: false,
+        enableDescription: false,
+    }
+
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1 className="text-xl font-semibold mb-2">New Company</h1>
-
-            <label htmlFor="name">Company Name</label>
-            <input
-                type="text"
-                id="name"
-                placeholder="Company Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <button className="bg-green-500 text-white active:bg-green-600" type="submit">
-                Save
-            </button>
-        </form>
+        <div className='flex flex-col gap-5'>
+            <Form {...formdata} title="Company" />
+            <Form {...formdata} title="Category" />
+        </div>
     )
 }
 

@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-export const AdminNav = () => {
+export const NavBar = () => {
 
     const inactiveNav = 'flex gap-1 p-1 ';
     const activeNav = inactiveNav + 'bg-white text-blue-500 rounded-l-lg';

@@ -1,4 +1,5 @@
 'use client';
+import Form from '@/components/Form';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -59,76 +60,29 @@ const NewProduct = () => {
         }
     };
 
+    const formdata = {
+        title: "Product",
+        name: name,
+        setName: setName,
+        price: price,
+        setPrice: setPrice,
+        description: description,
+        setDescription: setDescription,
+        categories: categories,
+        selectedCategory: selectedCategory,
+        setSelectedCategory: setSelectedCategory,
+        companies: companies,
+        selectedCompany: selectedCompany,
+        setSelectedCompany: setSelectedCompany,
+        handleSubmit: handleSubmit,
+        enableCategory: true,
+        enableCompany: true,
+        enablePrice: true,
+        enableDescription: true,
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
-            <h1 className="text-xl font-semibold mb-2">New Product</h1>
-
-            <label htmlFor="name">Product Name</label>
-            <input
-                type="text"
-                id="name"
-                placeholder="Product Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-
-            <label htmlFor="category">Category</label>
-            <select
-                id="category"
-                name="Category"
-                required
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                    <option key={category.id} value={category}>
-                        {category.name}
-                    </option>
-                ))}
-            </select>
-
-            <label htmlFor="company">Company</label>
-            <select
-                id="company"
-                name="Company"
-                value={selectedCompany}
-                onChange={(e) => setSelectedCompany(e.target.value)}
-                required
-            >
-                <option value="">Select a company</option>
-                {companies.map((company) => (
-                    <option key={company.id} value={company}>
-                        {company.name}
-                    </option>
-                ))}
-            </select>
-
-            <label htmlFor="price">Price in INR</label>
-            <input
-                type="number"
-                id="price"
-                placeholder="Product Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-            />
-
-            <label htmlFor="description">Description</label>
-            <textarea
-                id="description"
-                name="Description"
-                placeholder="Description"
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-
-            <button className="bg-green-500 text-white active:bg-green-600" type="submit">
-                Save
-            </button>
-        </form>
+        <Form {...formdata} />
     );
 };
 
