@@ -39,6 +39,7 @@ const Form = (props) => {
                 />
 
                 {(enableCategory || enableCompany) && (<div className="flex pl-0 p-4 gap-4">
+
                     {enableCategory && (
                         <>
                             <label htmlFor="category">Category</label>
@@ -51,14 +52,13 @@ const Form = (props) => {
                             >
                                 <option value="">Select a category</option>
                                 {categories.map((category) => (
-                                    <option key={category.id} value={category}>
+                                    <option key={category._id} value={category._id}>
                                         {category.name}
                                     </option>
                                 ))}
                             </select>
                         </>
                     )}
-
 
                     {enableCompany && (
                         <>
@@ -72,7 +72,7 @@ const Form = (props) => {
                             >
                                 <option value="">Select a company</option>
                                 {companies.map((company) => (
-                                    <option key={company.id} value={company}>
+                                    <option key={company._id} value={company._id}>
                                         {company.name}
                                     </option>
                                 ))}
@@ -93,7 +93,6 @@ const Form = (props) => {
                         />
                     </>)}
 
-
                 {enableDescription && (
                     <>
                         <label htmlFor="description">Description</label>
@@ -106,9 +105,11 @@ const Form = (props) => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </>)}
+
                 <button className={standard + "mr-2"} type="submit">
                     Save
                 </button>
+
                 <Link className={standard + " ml-2"} href="/admin/products">Back</Link>
             </form>
         </>

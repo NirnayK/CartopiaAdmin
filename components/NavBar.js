@@ -46,7 +46,7 @@ export const NavBar = () => {
     ]
 
     const items = navitems.map((item) => {
-        return (<Link href={item.href} id={item.id} className={(item.href === pathname) ? activeNav : inactiveNav}>
+        return (<Link href={item.href} key={item.id} className={(item.href === pathname) ? activeNav : inactiveNav}>
             {item.icon}
             {item.name}
         </Link>)

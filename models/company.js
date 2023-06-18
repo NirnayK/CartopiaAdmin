@@ -3,7 +3,9 @@ import mongoose, { model, Schema, models } from "mongoose";
 const companySchema = new mongoose.Schema({
     name: {
         type: String,
-        uppercase: true
+        uppercase: true,
+        unique: true,
+        required: true
     }
 });
 

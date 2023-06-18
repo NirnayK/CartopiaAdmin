@@ -41,10 +41,9 @@ const NewProduct = () => {
             name,
             price,
             description,
-            category: selectedCategory._id || selectedCategory,
-            company: selectedCompany._id || selectedCompany,
+            category: selectedCategory,
+            company: selectedCompany
         };
-
         try {
             await axios.post('/api/products', data);
             // Clear form inputs after successful submission
@@ -54,7 +53,8 @@ const NewProduct = () => {
             setSelectedCategory('');
             setSelectedCompany('');
             // Display success message or perform any desired actions
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error submitting product:', error);
             // Display error message or perform any error handling
         }
