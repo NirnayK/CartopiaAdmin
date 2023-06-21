@@ -9,7 +9,7 @@ const SignInButton = () => {
     if (session) {
         return (
             <>
-                <button className={name} onClick={() => signOut()}>
+                <button className={name} onClick={() => signOut({ callbackUrl: "/" })}>
                     Log Out
                 </button>
             </>

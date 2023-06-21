@@ -11,6 +11,7 @@ const NewProduct = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState('');
+    const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -34,6 +35,27 @@ const NewProduct = () => {
         fetchCategories();
         fetchCompanies();
     }, []);
+
+    const uploadPhotos = async (e) => {
+        e.preventDefault();
+        // const files = e.target?.files;
+        // if (files?.length < 0) return;
+        // const data = new FormData();
+        // for (const file of files) {
+        //     data.append('Image', file);
+        // }
+        // try {
+        //     const response = await axios.post('/api/image', data);
+        //     setPhotos((oldPhotos) => [...oldPhotos, ...response.data.links]);
+        // }
+        // catch (error) {
+        //     console.error('Error uploading photos:', error);
+        // }
+    }
+
+    const updatePhotoOrder = (images) => {
+        setPhotos(images);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,21 +86,26 @@ const NewProduct = () => {
         title: "Product",
         name: name,
         setName: setName,
-        price: price,
-        setPrice: setPrice,
-        description: description,
-        setDescription: setDescription,
         categories: categories,
         selectedCategory: selectedCategory,
         setSelectedCategory: setSelectedCategory,
         companies: companies,
         selectedCompany: selectedCompany,
         setSelectedCompany: setSelectedCompany,
+        price: price,
+        setPrice: setPrice,
+        description: description,
+        setDescription: setDescription,
+        photos: photos,
+        setPhotos: setPhotos,
+        uploadPhotos: uploadPhotos,
+        updatePhotoOrder: updatePhotoOrder,
         handleSubmit: handleSubmit,
         enableCategory: true,
         enableCompany: true,
         enablePrice: true,
         enableDescription: true,
+        enablePhotos: true,
     }
 
     return (

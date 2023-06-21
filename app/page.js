@@ -2,7 +2,6 @@ import SignInButton from "@/components/SignInButton"
 
 export default function Home() {
   return (
-
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-grow flex-col p-2 gap-5 items-center">
         <h1 className=" flex items-center  text-center mt-2 gap-2 text-3xl font-bold">
