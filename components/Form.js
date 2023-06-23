@@ -49,7 +49,7 @@ const Form = (props) => {
 
                     {enableCategory && (
                         <>
-                            <label htmlFor="category">Category</label>
+                            <label htmlFor="category">Category:</label>
                             <select
                                 id="category"
                                 name="Category"
@@ -69,7 +69,7 @@ const Form = (props) => {
 
                     {enableCompany && (
                         <>
-                            <label htmlFor="company">Company</label>
+                            <label htmlFor="company">Company:</label>
                             <select
                                 id="company"
                                 name="Company"
@@ -112,38 +112,28 @@ const Form = (props) => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </>)}
-
-                <label htmlFor="image">Photos</label>
-                <div className="mb-2 flex flex-wrap gap-1">
-                    <label className="w-24 h-24 rounded-lg bg-gray-200 cursor-pointer text-gray-400 flex flex-col justify-center items-center ">
-                        <svg
-                            className="w-8 h-8"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                            </path>
-                        </svg>
-                        <span>Add Photo</span>
-                        <input type="file" id="image" name="image" multiple className="hidden" onChange={uploadPhotos} />
-                    </label>
-
-                    {/* <ReactSortable
-                        list={photos}
-                        className="flex flex-wrap gap-1"
-                        setList={updatePhotoOrder}>
-                        {!!photos?.length && photos.map(link => (
-                            <div key={link} className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200 overflow-hidden">
-                                <Image src={link} alt="" className="rounded-lg" width={500} height={500} />
-                            </div>
-                        ))}
-                    </ReactSortable> */}
-                </div>
+                {enablePhotos && (<>
+                    <label htmlFor="image">Photos</label>
+                    <div className="mb-2 flex flex-wrap gap-1">
+                        <label className="w-24 h-24 rounded-lg bg-gray-200 cursor-pointer text-gray-400 flex flex-col justify-center items-center ">
+                            <svg
+                                className="w-8 h-8"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                                </path>
+                            </svg>
+                            <span>Add Photo</span>
+                            <input type="file" id="image" name="image" multiple className="hidden" onChange={uploadPhotos} />
+                        </label>
+                    </div>
+                </>)}
 
                 <button className={standard + "mr-2"} type="submit">
                     Save

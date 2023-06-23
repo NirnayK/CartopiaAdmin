@@ -40,9 +40,26 @@ button:hover {
 }
 
 button:focus {
-  @apply mr-1 mb-1 ease-linear transition-all duration-150;
+  @apply ease-linear transition-all duration-150;
 }
 
 label {
   @apply block mb-1 text-lg text-gray-700;
+}
+
+
+select {
+  @apply border-2 border-gray-200 p-1 mb-2 w-full;
+}
+
+th {
+  @apply p-2 bg-gray-100;
+}
+
+td {
+  @apply p-2 text-center;
+}
+
+tr:nth-child(even) {
+  @apply bg-gray-100;
 }

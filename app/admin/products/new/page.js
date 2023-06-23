@@ -37,20 +37,19 @@ const NewProduct = () => {
     }, []);
 
     const uploadPhotos = async (e) => {
-        e.preventDefault();
-        // const files = e.target?.files;
-        // if (files?.length < 0) return;
-        // const data = new FormData();
-        // for (const file of files) {
-        //     data.append('Image', file);
-        // }
-        // try {
-        //     const response = await axios.post('/api/image', data);
-        //     setPhotos((oldPhotos) => [...oldPhotos, ...response.data.links]);
-        // }
-        // catch (error) {
-        //     console.error('Error uploading photos:', error);
-        // }
+        const files = e.target?.files;
+        if (files?.length < 0) return;
+        const data = new FormData();
+        for (const file of files) {
+            data.append('Image', file);
+        }
+        try {
+            const response = await axios.post('/api/image', data);
+            setPhotos((oldPhotos) => [...oldPhotos, ...response.data.links]);
+        }
+        catch (error) {
+            console.error('Error uploading photos:', error);
+        }
     }
 
     const updatePhotoOrder = (images) => {
@@ -105,7 +104,7 @@ const NewProduct = () => {
         enableCompany: true,
         enablePrice: true,
         enableDescription: true,
-        enablePhotos: true,
+        enablePhotos: false,
     }
 
     return (
