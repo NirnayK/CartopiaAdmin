@@ -1,7 +1,5 @@
 import { mongooseConnect } from "@/lib/mongoose.js";
 import Product from "@/models/products.js";
-import Category from "@/models/categories.js";
-import Company from "@/models/company.js";
 
 export const POST = async (req) => {
     try {
@@ -14,8 +12,14 @@ export const POST = async (req) => {
                 name,
                 price,
                 description,
-                category,
-                company
+                category: {
+                    id: category.id,
+                    name: category.name,
+                },
+                company: {
+                    id: company.id,
+                    name: company.name,
+                }
             });
             return new Response(JSON.stringify(NewProduct), { status: 201 });
         }
@@ -36,20 +40,14 @@ export const POST = async (req) => {
 export const GET = async (req) => {
     try {
         await mongooseConnect();
-        // if (req.queryString == "") {
         try {
             const product = await Product.find();
-            const category = await Category.find();
-            const company = await Company.find();
-            const reformattedProducts = { product, category, company };
-            // console.log("reformattedProducts:", reformattedProducts);
-            return new Response(JSON.stringify(reformattedProducts), { status: 200 });
+            return new Response(JSON.stringify(product), { status: 200 });
         }
         catch (error) {
             console.error(error);
             return new Response(JSON.stringify(error), { status: 500 });
         }
-        // }
     }
     catch (error) {
         console.error(error);

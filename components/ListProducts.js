@@ -14,43 +14,37 @@ const ListProducts = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const getCategories = async () => {
             try {
-                const response = await axios.get('/api/products');
-                console.log('response.data:', response.data);
-                const { company, category, product } = response.data;
-                setCompanies(company);
-                setCategories(category);
-                const reformattedProducts = await formatProducts(product);
-                setProducts(reformattedProducts);
-                console.log(products);
-            }
-            catch (error) {
-                console.error('Error fetching products:', error);
+                const response = await axios.get('/api/categories');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error getting categories:', error);
             }
         };
-        fetchProducts();
+
+        const getCompanies = async () => {
+            try {
+                const response = await axios.get('/api/companies');
+                setCompanies(response.data);
+            } catch (error) {
+                console.error('Error getting companies:', error);
+            }
+        };
+
+        const getProducts = async () => {
+            try {
+                const response = await axios.get('/api/products');
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Error getting products:', error);
+            }
+        };
+
+        getCategories();
+        getCompanies();
+        getProducts();
     }, []);
-
-    const formatProducts = (products) => {
-        return products.map((product) => {
-            return {
-                ...product,
-                category_name: getCategoryName(product.category),
-                company_name: getCompanyName(product.company),
-            };
-        });
-    };
-
-    const getCategoryName = (categoryId) => {
-        const category = categories.find((category) => category._id === categoryId);
-        return category ? category.name : '';
-    };
-
-    const getCompanyName = (companyId) => {
-        const company = companies.find((company) => company._id === companyId);
-        return company ? company.name : '';
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,5 +83,3 @@ const ListProducts = () => {
 };
 
 export default ListProducts;
-
-

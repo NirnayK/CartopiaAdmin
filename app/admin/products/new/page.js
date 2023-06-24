@@ -8,9 +8,9 @@ const NewProduct = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState();
     const [companies, setCompanies] = useState([]);
-    const [selectedCompany, setSelectedCompany] = useState('');
+    const [selectedCompany, setSelectedCompany] = useState();
     const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
@@ -62,9 +62,10 @@ const NewProduct = () => {
             name,
             price,
             description,
-            category: selectedCategory,
-            company: selectedCompany
+            category: selectedCategory._id,
+            company: selectedCompany._id,
         };
+        console.log(data);
         try {
             await axios.post('/api/products', data);
             // Clear form inputs after successful submission

@@ -17,15 +17,30 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+            required: true
+        },
+        name: {
+            type: String,
+            required: true,
+            uppercase: true,
+        }
     },
     company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        required: true
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Company',
+            required: true
+        },
+        name: {
+            type: String,
+            required: true,
+            uppercase: true,
+        }
     }
+
 });
 
 module.exports = models.Product || mongoose.model('Product', productSchema);

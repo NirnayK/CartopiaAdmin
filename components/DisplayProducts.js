@@ -22,8 +22,8 @@ const DisplayProducts = (props) => {
                 {products.map((product, index) => (
                     <tr key={index}>
                         <td>{product.name}</td>
-                        <td>{product.category_name}</td>
-                        <td>{product.company_name}</td>
+                        <td>{product.category.name}</td>
+                        <td>{product.company.name}</td>
                         <td className="flex gap-2 justify-center">
                             {/* Add options for each product */}
                             <Link

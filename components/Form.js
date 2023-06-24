@@ -79,7 +79,7 @@ const Form = (props) => {
                             >
                                 <option value="">Select a company</option>
                                 {companies.map((company) => (
-                                    <option key={company._id} value={company._id}>
+                                    <option key={company._id} value={company}>
                                         {company.name}
                                     </option>
                                 ))}
