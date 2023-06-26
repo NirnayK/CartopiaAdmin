@@ -10,15 +10,15 @@ const SearchForm = (props) => {
         companies,
         selectedCompany,
         setSelectedCompany,
+        handleSubmit,
     } = props;
 
     return (
-        <form className="flex justify-between gap-2 items-center ">
+        <form className="flex justify-between gap-2 items-center" onSubmit={handleSubmit}>
             <input
                 type="text"
                 id="name"
                 placeholder="Search Products"
-                required
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
@@ -31,9 +31,9 @@ const SearchForm = (props) => {
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                    <option value="All">All</option>
+                    <option value="ALL">All</option>
                     {categories.map((category) => (
-                        <option key={category._id} value={category._id}>
+                        <option key={category._id} value={category.name}>
                             {category.name}
                         </option>
                     ))}
@@ -49,10 +49,9 @@ const SearchForm = (props) => {
                     onChange={(e) => setSelectedCompany(e.target.value)}
                     required
                 >
-                    <option value="All">All</option>
-
+                    <option value="ALL">All</option>
                     {companies.map((company) => (
-                        <option key={company._id} value={company._id}>
+                        <option key={company._id} value={company.name}>
                             {company.name}
                         </option>
                     ))}

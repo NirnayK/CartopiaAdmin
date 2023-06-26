@@ -62,10 +62,9 @@ const NewProduct = () => {
             name,
             price,
             description,
-            category: selectedCategory._id,
-            company: selectedCompany._id,
+            category: selectedCategory,
+            company: selectedCompany,
         };
-        console.log(data);
         try {
             await axios.post('/api/products', data);
             // Clear form inputs after successful submission
@@ -109,7 +108,7 @@ const NewProduct = () => {
     }
 
     return (
-        <Form {...formdata} />
+        < Form {...formdata} />
     );
 };
 

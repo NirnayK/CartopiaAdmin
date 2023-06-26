@@ -8,10 +8,11 @@ import axios from 'axios';
 const ListProducts = () => {
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('ALL');
     const [companies, setCompanies] = useState([]);
-    const [selectedCompany, setSelectedCompany] = useState('');
+    const [selectedCompany, setSelectedCompany] = useState('ALL');
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
         const getCategories = async () => {
@@ -36,6 +37,7 @@ const ListProducts = () => {
             try {
                 const response = await axios.get('/api/products');
                 setProducts(response.data);
+                setFilteredProducts(response.data);
             } catch (error) {
                 console.error('Error getting products:', error);
             }
@@ -46,21 +48,23 @@ const ListProducts = () => {
         getProducts();
     }, []);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            search,
-            category: selectedCategory,
-            company: selectedCompany,
-        };
-        try {
-            await axios.get('/api/products', data);
-            // Display success message or perform any desired actions
-        } catch (error) {
-            console.error('Error submitting product:', error);
-            // Display error message or perform any error handling
-        }
+        const filtered = products.filter((product) => {
+
+            const isMatch =
+                (search === '' || product.name.toLowerCase().includes(search.toLowerCase())) &&
+                (selectedCategory === 'ALL' || product.category === selectedCategory) &&
+                (selectedCompany === 'ALL' || product.company === selectedCompany);
+            console.log('isMatch:', isMatch);
+            console.log('selectedCategory:', selectedCategory);
+            return isMatch;
+        });
+        console.log('filtered:', filtered);
+        console.log('selectedCategory:', selectedCategory);
+        setFilteredProducts(filtered);
     };
+
 
     const formProps = {
         search: search,
@@ -77,7 +81,7 @@ const ListProducts = () => {
     return (
         <>
             <SearchForm {...formProps} className="mb-2" />
-            <DisplayProducts products={products} />
+            <DisplayProducts products={filteredProducts} />
         </>
     );
 };

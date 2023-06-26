@@ -12,14 +12,8 @@ export const POST = async (req) => {
                 name,
                 price,
                 description,
-                category: {
-                    id: category.id,
-                    name: category.name,
-                },
-                company: {
-                    id: company.id,
-                    name: company.name,
-                }
+                category,
+                company
             });
             return new Response(JSON.stringify(NewProduct), { status: 201 });
         }
@@ -53,4 +47,4 @@ export const GET = async (req) => {
         console.error(error);
         return new Response(JSON.stringify(error), { status: 501 });
     }
-}
+};

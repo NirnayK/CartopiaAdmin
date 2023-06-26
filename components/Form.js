@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Form = (props) => {
+
     const {
         title,
         name,
@@ -59,7 +60,7 @@ const Form = (props) => {
                             >
                                 <option value="">Select a category</option>
                                 {categories.map((category) => (
-                                    <option key={category._id} value={category._id}>
+                                    <option key={category._id} value={category.name}>
                                         {category.name}
                                     </option>
                                 ))}
@@ -79,7 +80,7 @@ const Form = (props) => {
                             >
                                 <option value="">Select a company</option>
                                 {companies.map((company) => (
-                                    <option key={company._id} value={company}>
+                                    <option key={company._id} value={company.name}>
                                         {company.name}
                                     </option>
                                 ))}
@@ -140,7 +141,7 @@ const Form = (props) => {
                 </button>
 
                 <Link className={standard + " ml-2"} href="/admin/products">Back</Link>
-            </form>
+            </form >
         </>
 
     )
