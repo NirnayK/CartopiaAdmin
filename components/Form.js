@@ -1,6 +1,4 @@
-import Link from "next/link";
-// import { ReactSortable } from "react-sortablejs";
-import Image from "next/image";
+import GoBack from "@/components/GoBack";
 
 const Form = (props) => {
 
@@ -34,8 +32,6 @@ const Form = (props) => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <h1 className="text-xl font-semibold mb-2">New {title}</h1>
-
                 <label htmlFor="name">{title} Name</label>
                 <input
                     type="text"
@@ -139,8 +135,7 @@ const Form = (props) => {
                 <button className={standard + "mr-2"} type="submit">
                     Save
                 </button>
-
-                <Link className={standard + " ml-2"} href="/admin/products">Back</Link>
+                <GoBack />
             </form >
         </>
 

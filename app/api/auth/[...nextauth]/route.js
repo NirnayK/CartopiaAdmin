@@ -12,6 +12,7 @@ const handler = NextAuth({
     ],
     adapter: MongoDBAdapter(clientPromise),
 
+
 })
 
 export { handler as GET, handler as POST }

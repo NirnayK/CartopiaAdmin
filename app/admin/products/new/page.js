@@ -82,7 +82,7 @@ const NewProduct = () => {
     };
 
     const formdata = {
-        title: "Product",
+        title: 'Product',
         name: name,
         setName: setName,
         categories: categories,
@@ -108,7 +108,10 @@ const NewProduct = () => {
     }
 
     return (
-        < Form {...formdata} />
+        <>
+            <h1 className="text-xl font-semibold mb-2">New Product</h1>
+            < Form {...formdata} />
+        </>
     );
 };
 

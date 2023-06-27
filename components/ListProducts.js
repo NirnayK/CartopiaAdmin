@@ -56,12 +56,12 @@ const ListProducts = () => {
                 (search === '' || product.name.toLowerCase().includes(search.toLowerCase())) &&
                 (selectedCategory === 'ALL' || product.category === selectedCategory) &&
                 (selectedCompany === 'ALL' || product.company === selectedCompany);
-            console.log('isMatch:', isMatch);
-            console.log('selectedCategory:', selectedCategory);
+            // console.log('isMatch:', isMatch);
+            // console.log('selectedCategory:', selectedCategory);
             return isMatch;
         });
-        console.log('filtered:', filtered);
-        console.log('selectedCategory:', selectedCategory);
+        // console.log('filtered:', filtered);
+        // console.log('selectedCategory:', selectedCategory);
         setFilteredProducts(filtered);
     };
 

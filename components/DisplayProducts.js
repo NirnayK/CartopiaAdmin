@@ -4,7 +4,7 @@ const DisplayProducts = (props) => {
     const {
         products,
     } = props;
-    console.log('products:', products);
+    // console.log('products:', products);
     const headings = ["Product Name", "Category", "Company", ""];
     const standard = " font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150";
     return (
@@ -27,7 +27,6 @@ const DisplayProducts = (props) => {
                         <td className="flex gap-2 justify-evenly">
                             {/* Add options for each product */}
                             <Link
-
                                 href={"/admin/products/edit"}
                                 className={"bg-blue-500 hover:bg-blue-600" + standard}>
                                 <div className="flex gap-2 items-center">

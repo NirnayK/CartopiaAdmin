@@ -1,8 +1,8 @@
 
-const route = () => {
+const Edit = () => {
     return (
-        <div>route</div>
+        <div>edit</div>
     )
 }
 
-export default route
+export default Edit

@@ -34,24 +34,15 @@ const CategoryCompany = () => {
         }
     };
 
-    const formdata = {
-        enableCategory: false,
-        enableCompany: false,
-        enablePrice: false,
-        enableDescription: false,
-    }
-
     return (
         <div className='flex flex-col gap-5'>
             <Form
-                {...formdata}
                 title="Company"
                 handleSubmit={handleCompany}
                 name={nameCompany}
                 setName={setNameCompany}
             />
             <Form
-                {...formdata}
                 title="Category"
                 handleSubmit={handleCategory}
                 name={nameCategory}
