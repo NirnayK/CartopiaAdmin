@@ -17,14 +17,14 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true,
-        uppercase: true,
     },
     company: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
         required: true,
-        uppercase: true,
     }
 
 });

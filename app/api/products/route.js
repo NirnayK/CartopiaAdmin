@@ -35,7 +35,7 @@ export const GET = async (req) => {
     try {
         await mongooseConnect();
         try {
-            const product = await Product.find();
+            const product = await Product.find().populate('category').populate('company');
             return new Response(JSON.stringify(product), { status: 200 });
         }
         catch (error) {

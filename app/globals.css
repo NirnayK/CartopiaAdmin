@@ -31,16 +31,19 @@ textarea:focus {
   @apply border-gray-700;
 }
 
-button {
-  @apply font-bold uppercase text-sm px-6 py-3 rounded-full;
-}
+@layer components {
+  .btn {
+    @apply font-bold uppercase text-sm px-6 py-3 rounded-full;
+  }
 
-button:hover {
-  @apply shadow shadow-lg outline-none;
-}
+  .btn:hover {
+    @apply shadow shadow-lg outline-none;
+  }
 
-button:focus {
-  @apply ease-linear transition-all duration-150;
+  .btn:focus {
+    @apply ease-linear transition-all duration-150;
+  }
+
 }
 
 label {
