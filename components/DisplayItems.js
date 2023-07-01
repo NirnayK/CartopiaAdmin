@@ -1,10 +1,10 @@
 import Link from 'next/link';
-const DisplayProducts = (props) => {
+const DisplayItems = (props) => {
     const {
         products,
     } = props;
     // console.log('products:', products);
-    const headings = ["Product Name", "Category", "Company", ""];
+    const headings = ["Product Name", "Category", ""];
     const standard = " font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150";
     return (
         <table className="rounded-lg">
@@ -22,7 +22,6 @@ const DisplayProducts = (props) => {
                     <tr key={index}>
                         <td>{product.name}</td>
                         <td>{product.category.name}</td>
-                        <td>{product.company.name}</td>
                         <td className="flex gap-2 justify-evenly">
                             {/* Add options for each product */}
                             <Link
@@ -60,4 +59,4 @@ const DisplayProducts = (props) => {
     );
 }
 
-export default DisplayProducts
+export default DisplayItems

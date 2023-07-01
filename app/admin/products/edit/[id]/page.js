@@ -22,7 +22,7 @@ const ProductEdit = ({ params }) => {
             {product &&
                 <>
                     <h1 className="text-xl font-semibold mb-2">Edit Product</h1>
-                    <ProductForm {...product} />
+                    <ProductForm {...product} method="PUT" />
                 </>}
         </>
     )

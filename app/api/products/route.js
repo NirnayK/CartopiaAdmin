@@ -35,16 +35,29 @@ export const GET = async (req) => {
     try {
         await mongooseConnect();
         try {
-            const product = await Product.find().populate('category').populate('company');
-            return new Response(JSON.stringify(product), { status: 200 });
-        }
-        catch (error) {
+            const { categoryId, companyId } = req.query;
+
+            let products;
+
+            if (categoryId) {
+                // Fetch products filtered by category ID and populate the associated category and company details
+                products = await Product.find({ category: categoryId }).populate('category').populate('company');
+            } else if (companyId) {
+                // Fetch products filtered by company ID and populate the associated category and company details
+                products = await Product.find({ company: companyId }).populate('category').populate('company');
+            } else {
+                // Fetch all products and populate the associated category and company details
+                products = await Product.find().populate('category').populate('company');
+            }
+
+            return new Response(JSON.stringify(products), { status: 200 });
+        } catch (error) {
             console.error(error);
             return new Response(JSON.stringify(error), { status: 500 });
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
         return new Response(JSON.stringify(error), { status: 501 });
     }
 };
+

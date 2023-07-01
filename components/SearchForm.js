@@ -7,23 +7,21 @@ const SearchForm = (props) => {
         categories,
         selectedCategory,
         setSelectedCategory,
-        companies,
-        selectedCompany,
-        setSelectedCompany,
         handleSubmit,
     } = props;
 
     return (
         <form className="flex justify-between gap-2 items-center" onSubmit={handleSubmit}>
             <input
+                className="mb-2 w-full"
                 type="text"
                 id="name"
-                placeholder="Search Products"
+                placeholder="Search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
             <>
-                <label htmlFor="category">Category:</label>
+                <label className='block mb-1' htmlFor="category">Category:</label>
                 <select
                     id="category"
                     name="Category"
@@ -33,31 +31,32 @@ const SearchForm = (props) => {
                 >
                     <option value="ALL">All</option>
                     {categories.map((category) => (
-                        <option key={category._id} value={category.name}>
+                        <option key={category._id} value={category._id}>
                             {category.name}
                         </option>
                     ))}
 
                 </select>
             </>
-            < >
-                <label htmlFor="company">Company:</label>
-                <select
-                    id="company"
-                    name="Company"
-                    value={selectedCompany}
-                    onChange={(e) => setSelectedCompany(e.target.value)}
-                    required
-                >
-                    <option value="ALL">All</option>
-                    {companies.map((company) => (
-                        <option key={company._id} value={company.name}>
-                            {company.name}
-                        </option>
-                    ))}
+            {
+                selectedCategory !== "ALL" && false &&
+                <div className="flex wrap">
 
-                </select>
-            </>
+                    {categories.map((category) => (
+                        <div className="flex items-center gap-1">
+                            <label className='block mb-1' htmlFor={category.name}>{category.name}</label>
+                            <select>
+                                <option value="ALL">All</option>
+                                {category.subCategories.map((subCategory) => (
+                                    <option key={subCategory._id} value={subCategory._id}>
+                                        {subCategory.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    ))}
+                </div>
+            }
             <button className="bg-green-500 text-white active:bg-green-600 btn mr-2" type="submit">
                 Search
             </button>

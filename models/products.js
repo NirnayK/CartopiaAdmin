@@ -16,17 +16,18 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true,
-    },
-    company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        required: true,
-    }
-
+    // category: [
+    //     {
+    //         CatName: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         CatVal: {
+    //             type: Schema.Types.ObjectId,
+    //             ref: 'CategoryItem'
+    //         }
+    //     }
+    // ],
 });
 
 module.exports = models.Product || mongoose.model('Product', productSchema);
