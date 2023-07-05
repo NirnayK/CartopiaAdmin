@@ -57,7 +57,7 @@ const SearchForm = (props) => {
                     ))}
                 </div>
             }
-            <button className="bg-green-500 text-white active:bg-green-600 btn mr-2" type="submit">
+            <button className="bg-green-500 text-white hover:bg-green-600 btn mr-2" type="submit">
                 Search
             </button>
         </form >

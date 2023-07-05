@@ -1,29 +1,54 @@
 'use client';
 import axios from 'axios';
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import DynamicValueInput from './DynamicValueInput'
 
-const CategoryForm = (props) => {
-    // console.log('props', props)
-    const { data, slug, method } = props
-    const [name, setName] = useState('')
-    const [subCategoryName, setSubCategoryName] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState(undefined)
+const CategoryForm = ({ data, method }) => {
+    const [name, setName] = useState(data ? data.name : '')
     const [categories, setCategories] = useState([])
+    const [parentId, setParentId] = useState(data ? data.parent : '')
+    const [values, setValues] = useState(data ? data.values : [{}])
     const [showConfirmation, setShowConfirmation] = useState(false)
-    const [values, setValues] = useState([""])
+    const ogParentId = data ? data.parent : ''
     const router = useRouter()
+
+    console.log('categories:', categories)
+
+    useEffect(() => {
+
+        // Run the get axios function or any other desired logic
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/categories/');
+                setCategories(response.data);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+
+    }, []);
+
 
     const handleDelete = async () => {
         try {
             await axios.delete('/api/categories/' + data._id)
             router.push('/admin/categories')
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error deleting category:', error)
             // Display error message or perform any error handling
         }
     }
+
+    const handleConfirmation = (confirmed) => {
+        setShowConfirmation(false);
+        if (confirmed) {
+            handleDelete();
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -31,26 +56,33 @@ const CategoryForm = (props) => {
             setShowConfirmation(true)
         }
         else {
-            const data = {
-                name,
-                subCategoryName,
-                category: selectedCategory,
+            const DATA = {
+                name: name,
+                parent: (parentId === '') ? null : parentId,
+                values: values,
+                ogparent: ogParentId
             }
-            try {
-                if (method === 'POST') {
-                    await axios.post('/api/categories', data)
+            if (method == 'POST') {
+                try {
+                    await axios.post('/api/categories', DATA)
                     setName('')
-                    setSubCategoryName('')
-                    setSelectedCategory('')
+                    setParentId('')
+                    setValues([""])
                 }
-                else if (method === 'PUT') {
-                    await axios.put('/api/categories/' + slug.slug, data)
+                catch (error) {
+                    console.error('Error creating category:', error)
+                    // Display error message or perform any error handling
                 }
-                router.push('/admin/categories')
             }
-            catch (error) {
-                console.error('Error submitting category:', error)
-                // Display error message or perform any error handling
+            else {
+                try {
+                    await axios.put('/api/categories/' + data._id, DATA)
+                    router.push('/admin/categories')
+                }
+                catch (error) {
+                    console.error('Error updating category:', error)
+                    // Display error message or perform any error handling
+                }
             }
         }
     }
@@ -58,70 +90,73 @@ const CategoryForm = (props) => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label className='block mb-1' htmlFor="name">
-                    {slug === 'new-sub-category' ? 'Parent ' : ''}
-                    Category Name
+                <label className='block mb-1' htmlFor="ParentCategory">
+                    Parent Category Name:
                 </label>
-                {slug !== 'new-sub-category' ? (
-                    <input
-                        className='mb-2 w-full'
-                        type="text"
-                        id="name"
-                        placeholder="Category Name"
-                        required
-                        value={name}
-                        readOnly={method === 'DELETE'}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                ) : (
-                    <select
-                        id="name"
-                        name="Category"
-                        required
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                    >
-                        <option value="">Select a category</option>
-                        {categories.map((category) => (
-                            <option
-                                key={category._id}
-                                value={category._id}
-                                disabled={method === 'DELETE'}
-                            >
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                )}
+                <select
+                    id="name"
+                    name="ParentCategory"
+                    value={parentId}
+                    onChange={(e) => setParentId(e.target.value)}
+                >
+                    <option value="">Select a parent category</option>
+                    {categories.map((category) => (
+                        <option
+                            key={category._id}
+                            value={category._id}
+                            disabled={method === 'DELETE'}
+                        >
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
 
-                {/* subcategory */}
                 <label
                     className='block mb-1'
-                    htmlFor="subCategoryName"
+                    htmlFor="CategoryName"
                 >
-                    Sub-Category Name:
+                    Category Name:
                 </label>
                 <input
-                    className='mb-2'
+                    className='mb-2 w-full'
                     type="text"
-                    id="subCategoryName"
-                    placeholder="Sub-Category Name"
+                    id="CategoryName"
+                    placeholder="Category Name"
                     required
-                    value={subCategoryName}
+                    value={name}
                     readOnly={method === 'DELETE'}
-                    onChange={(e) => setSubCategoryName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                 />
-                <DynamicValueInput values={values} setValues={setValues} />
+
+                <DynamicValueInput values={values} setValues={setValues} method={method} />
+
 
                 <div className='mt-4'>
-                    <button className="bg-green-500 text-white active:bg-green-600 w-28 btn mr-2" type="submit">
+                    <button className="bg-green-500 text-white hover:bg-green-600 w-28 btn mr-2" type="submit">
                         {method === 'POST' ? 'Create' : method === 'PUT' ? 'Update' : 'Delete'}
                     </button>
-                    <button type="button" className="bg-green-500 text-white active:bg-green-600 w-28 btn" onClick={() => router.back()}>
+                    <button type="button" className="bg-gray-500 text-white hover:bg-gray-600 w-28 btn" onClick={() => router.back()}>
                         Back
                     </button>
                 </div>
             </form>
+
+            {showConfirmation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-20 z-50">
+                    <div className="bg-slate-200 p-4 rounded-xl">
+                        <p className="text-center mb-1">Are you sure you want to delete?</p>
+                        <b><h2 className="text-center text-lg mb-4">{name}</h2></b>
+                        <div className="flex gap-2 justify-evenly">
+                            <button className="bg-red-500 text-white hover:bg-red-600 btn mr-2" onClick={() => handleConfirmation(true)}>
+                                Yes
+                            </button>
+                            <button className="bg-green-500 text-white hover:bg-green-600 btn" onClick={() => handleConfirmation(false)}>
+                                Go Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

@@ -16,18 +16,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // category: [
-    //     {
-    //         CatName: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         CatVal: {
-    //             type: Schema.Types.ObjectId,
-    //             ref: 'CategoryItem'
-    //         }
-    //     }
-    // ],
+    properties: [{ type: Object }]
 });
 
 module.exports = models.Product || mongoose.model('Product', productSchema);

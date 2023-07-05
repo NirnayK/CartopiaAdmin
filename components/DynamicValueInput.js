@@ -1,5 +1,5 @@
 
-const DynamicValueInput = ({ values, setValues }) => {
+const DynamicValueInput = ({ values, setValues, method }) => {
 
     const addNewValue = (e) => {
         e.preventDefault();
@@ -7,11 +7,12 @@ const DynamicValueInput = ({ values, setValues }) => {
         setValues([...values, newValue]);
     };
 
-    const removeValue = (index) => {
-        if (values.length > 1) {
-            const updatedValues = values.filter((_, i) => i !== index);
-            setValues(updatedValues);
-        }
+    const removeValue = (e, index) => {
+        e.preventDefault();
+
+        const updatedValues = values.filter((_, i) => i !== index);
+        setValues(updatedValues);
+
     };
 
     const handleChange = (e, index) => {
@@ -21,7 +22,7 @@ const DynamicValueInput = ({ values, setValues }) => {
         setValues(updatedValues);
     };
 
-    const handleKeyDown = (e, index) => {
+    const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
         }
@@ -40,15 +41,17 @@ const DynamicValueInput = ({ values, setValues }) => {
                             type="text"
                             id={`value${index}`}
                             value={value}
+                            required
+                            readOnly={method === 'DELETE'}
                             onChange={(e) => handleChange(e, index)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
+                            onKeyDown={(e) => handleKeyDown(e)}
                         />
 
                         {/* Remove Button for each value */}
-                        {values.length > 1 && (
+                        {method != 'DELETE' && (
                             <button
-                                className="rounded-full bg-red-500 text-gold-500 active:bg-red-600 h-8 w-8 mx-2"
-                                onClick={() => removeValue(index)}
+                                className="rounded-full bg-red-500 text-gold-500 hover:bg-red-600 h-8 w-8 mx-2"
+                                onClick={(e) => removeValue(e, index)}
                             >
                                 -
                             </button>
@@ -56,7 +59,7 @@ const DynamicValueInput = ({ values, setValues }) => {
                     </div>
                 ))}
             </div>
-            <button className="absolute right-10 text-blue-500 text-lg" onClick={(e) => addNewValue(e)}>
+            <button className="absolute right-10 text-blue-500 hover:text-blue-600 text-lg" onClick={(e) => addNewValue(e)}>
                 + Add New Value
             </button>
         </>
