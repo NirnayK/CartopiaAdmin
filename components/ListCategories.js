@@ -6,7 +6,6 @@ import DisplayItems from '@/components/DisplayItems';
 
 const ListCategories = () => {
     const [search, setSearch] = useState('')
-    const [searchParmas, setSearchParams] = useState([])
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
 
@@ -49,7 +48,7 @@ const ListCategories = () => {
                     Search
                 </button>
             </form >
-            {filteredCategories && <DisplayItems items={filteredCategories} source={'categories'} headings={['Category Name', 'Parent']} />}
+            {filteredCategories && <DisplayItems items={filteredCategories} source={'categories'} headings={['Category Name']} />}
         </>
     );
 }

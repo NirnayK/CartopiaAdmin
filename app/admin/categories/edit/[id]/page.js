@@ -18,6 +18,7 @@ const EditCategory = ({ params }) => {
         getCategory();
     }, [params.id]);
 
+    console.log(category);
     return (
         <>
             {category &&

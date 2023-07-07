@@ -10,6 +10,7 @@ const Form = (props) => {
         name: existingName,
         price: existingPrice,
         description: existingDescription,
+        category: existingCategory,
         properties: existingProperties,
         method,
     } = props;
@@ -18,9 +19,11 @@ const Form = (props) => {
     const [price, setPrice] = useState(existingPrice || '');
     const [description, setDescription] = useState(existingDescription || '');
     const [categories, setCategories] = useState([]);
-    const [filteredCategories, setFilteredCategories] = useState([]);
-    const [selectedProperties, setSelectedPropeties] = useState(existingProperties || undefined);
+    const [selectedCategory, setselectedCategory] = useState(existingCategory || '');
+    const [selectedCategoryValues, setselectedCategoryValues] = useState(null);
+    const [properties, setProperties] = useState(existingProperties || {});
     const [showConfirmation, setShowConfirmation] = useState(false);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -28,12 +31,14 @@ const Form = (props) => {
             try {
                 const response = await axios.get('/api/categories');
                 setCategories(response.data);
-                filterCategory('Smartphones');
+                if (existingCategory) {
+                    const currentSelectedCategory = response.data.find((category) => category._id === existingCategory);
+                    setselectedCategoryValues(currentSelectedCategory.values);
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
         };
-
         fetchCategories();
     }, []);
 
@@ -52,13 +57,14 @@ const Form = (props) => {
         e.preventDefault();
         if (method === 'DELETE') {
             setShowConfirmation(true);
-        } else {
+        }
+        else {
             const data = {
                 name,
                 price,
                 description,
                 category: selectedCategory,
-                company: selectedCompany,
+                properties
             };
             try {
                 if (method === 'POST') {
@@ -66,8 +72,9 @@ const Form = (props) => {
                     setName('');
                     setPrice('');
                     setDescription('');
-                    setSelectedCategory('');
-                    setSelectedCompany('');
+                    setselectedCategory('');
+                    setselectedCategoryValues(null);
+                    setProperties({});
                 } else if (method === 'PUT') {
                     await axios.put('/api/products/' + _id, data);
                     router.push('/admin/products');
@@ -86,77 +93,118 @@ const Form = (props) => {
         }
     };
 
-    const filterCategory = (parent_id) => {
-        const filtered = categories.filter((category) => category.parent_id === parent_id);
-        setFilteredCategories(filtered);
-    }
+    const handleCategoryChange = (e) => {
+        e.preventDefault();
+        const selectedCategoryId = e.target.value;
+        setselectedCategory(selectedCategoryId);
 
+        // Find the selected category
+        const currentSelectedCategory = categories.find((category) => category._id === selectedCategoryId);
+        setselectedCategoryValues(currentSelectedCategory.values);
+
+        // Create properties object with empty values
+        const updatedProperties = {};
+        console.log(currentSelectedCategory)
+        currentSelectedCategory.values.forEach((property) => {
+            updatedProperties[property.name] = '';
+        });
+
+        setProperties(updatedProperties);
+    };
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label className='block mb-1' htmlFor="name">Product Name</label>
-                <input
-                    className='mb-2 w-full'
-                    type="text"
-                    id="name"
-                    placeholder="Product Name"
-                    required
-                    value={name}
-                    readOnly={method === 'DELETE'}
-                    onChange={(e) => setName(e.target.value)}
-                />
+            <form className='space-y-3' onSubmit={handleSubmit}>
 
+                <div className='space-y-1'>
+                    <label className='block' htmlFor="name">Product Name</label>
+                    <input
+                        className='w-2/3'
+                        type="text"
+                        id="name"
+                        placeholder="Product Name"
+                        required
+                        value={name}
+                        readOnly={method === 'DELETE'}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
 
-                <label className='block mb-1' htmlFor="category">Category:</label>
-                <select
-                    id="category"
-                    name="Category"
-                    required
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                    <option
-                        value=""
-                        disabled={method === 'DELETE'}
+                <div className='space-y-1'>
+                    <label className='block' htmlFor="price">Price in INR</label>
+                    <input
+                        type="number"
+                        className='mb-2 w-1/4'
+                        id="price"
+                        placeholder="Product Price"
+                        value={price}
+                        readOnly={method === 'DELETE'}
+                        onChange={(e) => setPrice(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className='flex items-baseline gap-2 '>
+
+                    <label htmlFor="category">Category:</label>
+                    <select
+                        className='mb-2'
+                        id="category"
+                        name="category"
+                        value={selectedCategory}
+                        onChange={(e) => handleCategoryChange(e)}
+                        required
                     >
-                        Select a category
-                    </option>
-                    {filteredCategories.map((category) => (
-                        <option
-                            key={category._id}
-                            value={category._id}
-                            disabled={method === 'DELETE'}
-                        >
-                            {category.name}
-                        </option>
+                        <option value="">Select a category</option>
+                        {categories && categories.map((category) => (
+                            <option key={category._id} value={category._id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className='flex flex-wrap gap-3 p-2'>
+
+                    {selectedCategoryValues && selectedCategoryValues.map((property) => (
+                        <div className='p-2 flex gap-2' key={property.name}>
+                            <label htmlFor={property.name}>{property.name}:</label>
+                            <select
+                                id={property.name}
+                                name={property.name}
+                                value={properties[[property.name]]}
+                                onChange={(e) => setProperties((prev) => {
+                                    const prevProperties = { ...prev };
+                                    prevProperties[property.name] = e.target.value;
+                                    return prevProperties;
+                                })}
+                            >
+                                <option value=''>Select a value</option>
+                                {property.values.map((val) => (
+                                    <option key={val} value={val}>
+                                        {val}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     ))}
-                </select>
 
+                </div>
 
-                <label className='block mb-1' htmlFor="price">Price in INR</label>
-                <input
-                    type="number"
-                    className='mb-2 w-full'
-                    id="price"
-                    placeholder="Product Price"
-                    value={price}
-                    readOnly={method === 'DELETE'}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                />
+                <div className='flex-col gap-1'>
 
-                <label className='block mb-1' htmlFor="description">Description</label>
-                <textarea
-                    className='mb-2 w-full'
-                    id="description"
-                    name="Description"
-                    placeholder="Description"
-                    required
-                    value={description}
-                    readOnly={method === 'DELETE'}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                    <label className='block' htmlFor="description">Description</label>
+                    <textarea
+                        className='w-full'
+                        id="description"
+                        name="Description"
+                        placeholder="Description"
+                        required
+                        value={description}
+                        readOnly={method === 'DELETE'}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
 
                 <button className="bg-green-500 text-white hover:bg-green-600 w-28 btn mr-2" type="submit">
                     {method === 'POST' ? 'Create' : method === 'PUT' ? 'Update' : 'Delete'}
@@ -165,7 +213,6 @@ const Form = (props) => {
                     Back
                 </button>
             </form >
-
 
             {showConfirmation && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-20 z-50">
@@ -183,8 +230,8 @@ const Form = (props) => {
                     </div>
                 </div>
             )}
-        </>
 
+        </>
     )
 }
 

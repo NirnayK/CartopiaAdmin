@@ -25,30 +25,17 @@ export const PUT = async (req, { params }) => {
         await mongooseConnect();
         try {
             const data = await req.json();
-            const ogparent = data.ogparent;
 
             const updatedCategory = await Category.findOneAndUpdate(
                 { _id: params.id },
                 {
                     $set: {
                         name: data.name,
-                        parent: data.parent,
                         values: data.values,
                     }
                 },
                 { new: true } // To return the updated document
             );
-
-            if (ogparent && ogparent !== data.parent) {
-                await Category.findOneAndUpdate(
-                    { _id: ogparent },
-                    { $pull: { children: params.id } }
-                );
-                await Category.findOneAndUpdate(
-                    { _id: data.parent },
-                    { $addToSet: { children: params.id } }
-                );
-            }
 
             return new Response(JSON.stringify(updatedCategory), { status: 200 });
         } catch (error) {

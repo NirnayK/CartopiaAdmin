@@ -7,7 +7,7 @@ const DisplayItems = ({ items, headings, source }) => {
             <thead>
                 <tr>
                     {headings.map((heading, index) => (
-                        <th key={index} colSpan={index === 0 ? 2 : 1}>{heading}</th>
+                        <th key={index}>{heading}</th>
                     ))}
                     <th colSpan={2}></th> {/* Empty columns for Edit and Delete buttons */}
                 </tr>
@@ -15,10 +15,14 @@ const DisplayItems = ({ items, headings, source }) => {
             <tbody>
                 {items.map((item, index) => (
                     <tr key={index}>
-                        {item.name && <td colSpan={2}>{item.name}</td>}
-                        {item.category && <td>{item.category}</td>}
-                        {item.parent && <td>{item.parent.name}</td>}
-                        {!item.parent && <td>NULL</td>}
+                        {item.name && <td>{item.name}</td>}
+                        {item.category &&
+                            <>
+                                <td>{item.category.name}</td>
+                                <td>{item.properties['Brand']}</td>
+                            </>
+                        }
+
                         <td colSpan={2} className="flex gap-2 justify-evenly">
                             {/* Edit button */}
                             <Link href={`/admin/${source}/edit/${item._id}`} className="bg-blue-500 hover:bg-blue-600 btn">

@@ -4,24 +4,10 @@ import Category from "@/models/category.js"
 export const POST = async (req) => {
     try {
         const jsonData = await req.json();
-        const { name, values, parent } = jsonData;
+        const { name, values } = jsonData;
         await mongooseConnect();
-
         try {
-            const newCategory = await Category.create({
-                name: name,
-                values: values,
-                parent: parent,
-                children: []
-            });
-
-            if (parent) {
-                await Category.findByIdAndUpdate(parent, {
-                    $set: { isleaf: false },
-                    $addToSet: { children: newCategory._id }
-                });
-            }
-
+            const newCategory = await Category.create({ name, values, });
             return new Response(JSON.stringify(newCategory), { status: 201 });
         } catch (error) {
             console.log("Error in creating a new category");
@@ -40,8 +26,7 @@ export const GET = async (req) => {
     try {
         await mongooseConnect()
         try {
-            const Categories = await Category.find({}).populate('parent').populate('children')
-            console.log(Categories)
+            const Categories = await Category.find()
             return new Response(JSON.stringify(Categories), { status: 200 })
         }
         catch (error) {

@@ -60,7 +60,7 @@ const ListProducts = () => {
     return (
         <>
             <SearchForm {...formProps} className="mb-2" />
-            <DisplayItems items={filteredProducts} source={"products"} headings={["Product Name", "Category"]} />
+            <DisplayItems items={filteredProducts} source={"products"} headings={["Product Name", "Category", "Company"]} />
         </>
     );
 };

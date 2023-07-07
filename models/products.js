@@ -16,7 +16,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    properties: [{ type: Object }]
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    },
+    properties: { type: Object, required: true }
 });
 
 module.exports = models.Product || mongoose.model('Product', productSchema);
