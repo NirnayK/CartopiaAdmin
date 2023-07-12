@@ -1,7 +1,9 @@
 'use client';
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+
 
 const Form = (props) => {
 
@@ -12,6 +14,7 @@ const Form = (props) => {
         description: existingDescription,
         category: existingCategory,
         properties: existingProperties,
+        images: existingImages,
         method,
     } = props;
 
@@ -22,6 +25,7 @@ const Form = (props) => {
     const [selectedCategory, setselectedCategory] = useState(existingCategory || '');
     const [selectedCategoryValues, setselectedCategoryValues] = useState(null);
     const [properties, setProperties] = useState(existingProperties || {});
+    const [images, setImages] = useState(existingImages || []);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const router = useRouter();
@@ -112,6 +116,26 @@ const Form = (props) => {
         setProperties(updatedProperties);
     };
 
+    const uploadPhotos = async (e) => {
+        const files = e.target?.files
+        if (files.length > 0) {
+            const imageData = new FormData()
+            for (const file of files) {
+                imageData.append('file', file)
+            }
+            try {
+                const response = await axios.post('/api/images', imageData)
+                // setImages((prev) => [...prev, ...response.data])
+            }
+            catch (error) {
+                // Display error message or perform any error handling
+                console.error('Error uploading images:', error);
+
+            }
+        }
+    }
+
+
     return (
         <>
             <form className='space-y-3' onSubmit={handleSubmit}>
@@ -162,6 +186,27 @@ const Form = (props) => {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div className='flex flex-wrap gap-3 p-2'>
+                    <label className="w-26 h-28 rounded-lg p-2 bg-gray-200 cursor-pointer text-gray-400 flex flex-col justify-center items-center ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        Add Photo
+                        <input type="file" id="image" name="image" className="hidden" onChange={uploadPhotos} multiple />
+                    </label>
+
+                    {images && images.map((image) => (
+                        <Image
+                            key={image._id}
+                            src={image.url}
+                            alt={image.filename}
+                            width={100}
+                            height={100}
+                            className='rounded-lg'
+                        />
+                    ))}
                 </div>
 
                 <div className='flex flex-wrap gap-3 p-2'>

@@ -6,7 +6,7 @@ const Products = () => {
         <div className="flex flex-col gap-4 p-2">
             <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-bold">Add a New Product:</h1>
-                <Link className="bg-green-500 text-white hover:bg-green-600 btn" href={"/admin/products/new"}>
+                <Link className="bg-green-500 hover:bg-green-600 btn" href={"/admin/products/new"}>
                     New Product
                 </Link>
             </div>
