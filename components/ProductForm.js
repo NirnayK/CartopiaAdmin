@@ -3,6 +3,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { CldUploadButton } from 'next-cloudinary';
 
 
 const Form = (props) => {
@@ -117,24 +118,16 @@ const Form = (props) => {
     };
 
     const uploadPhotos = async (e) => {
-        const files = e.target?.files
-        if (files.length > 0) {
-            const imageData = new FormData()
-            for (const file of files) {
-                imageData.append('file', file)
-            }
-            try {
-                const response = await axios.post('/api/images', imageData)
-                // setImages((prev) => [...prev, ...response.data])
-            }
-            catch (error) {
-                // Display error message or perform any error handling
-                console.error('Error uploading images:', error);
 
-            }
-        }
+        setImages((prev) => [...prev, e.info.secure_url])
     }
 
+    const removePhoto = (e) => {
+        const newPhotos = images.filter((image) => image !== e);
+        setImages(newPhotos);
+    }
+
+    console.log('images', images)
 
     return (
         <>
@@ -188,24 +181,26 @@ const Form = (props) => {
                     </select>
                 </div>
 
+                <CldUploadButton className="rounded-lg p-2 bg-slate-200 cursor-pointer text-gray-600" uploadPreset="qhcyym20" onUpload={(e) => uploadPhotos(e)} />
+
                 <div className='flex flex-wrap gap-3 p-2'>
-                    <label className="w-26 h-28 rounded-lg p-2 bg-gray-200 cursor-pointer text-gray-400 flex flex-col justify-center items-center ">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                        </svg>
-                        Add Photo
-                        <input type="file" id="image" name="image" className="hidden" onChange={uploadPhotos} multiple />
-                    </label>
 
                     {images && images.map((image) => (
-                        <Image
-                            key={image._id}
-                            src={image.url}
-                            alt={image.filename}
-                            width={100}
-                            height={100}
-                            className='rounded-lg'
-                        />
+                        <div className='relative w-[200px] h-[200px] rounded-md overflow-hidden'>
+                            <div className='z-10 absolute top-2 right-2'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 hover:cursor-pointer" onClick={() => removePhoto(image)}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+                            </div>
+                            <Image
+                                key={image._id}
+                                src={image}
+                                alt={image}
+                                width={200}
+                                height={200}
+                                className='rounded-lg'
+                            />
+                        </div>
                     ))}
                 </div>
 
