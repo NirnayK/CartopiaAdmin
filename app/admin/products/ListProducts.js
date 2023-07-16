@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import SearchForm from '@/components/SearchForm';
-import DisplayItems from '@/components/DisplayItems';
+import SearchForm from './SearchForm';
+import DisplayItemsTable from '@/components/DisplayItemsTable';
 import axios from 'axios';
 
 
@@ -83,7 +83,7 @@ const ListProducts = () => {
     return (
         <div className='space-y-3'>
             <SearchForm {...formProps} />
-            <DisplayItems items={filteredProducts} source={"products"} headings={["Product Name", "Category", "Company"]} />
+            <DisplayItemsTable items={filteredProducts} source={"products"} headings={["Product Name", "Category", "Company"]} />
         </div>
     );
 };

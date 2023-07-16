@@ -1,5 +1,5 @@
-import ListProducts from "@/components/ListProducts";
 import Link from "next/link"
+import ListProducts from "./ListProducts"
 
 const Products = () => {
     return (

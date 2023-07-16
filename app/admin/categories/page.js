@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import ListCategories from '@/components/ListCategories'
+import ListCategories from './ListCategories'
 const page = () => {
     return (
         <div className="flex flex-col gap-4">

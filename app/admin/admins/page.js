@@ -2,8 +2,8 @@
 const Admins = () => {
     return (
         <>
-            Admins
             {/* Add a Admin */}
+
             {/* List of Admins */}
         </>
     )

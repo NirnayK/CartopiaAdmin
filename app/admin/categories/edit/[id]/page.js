@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import CategoryForm from '@/components/CategoryForm';
+import CategoryForm from '../../CategoryForm';
 
 const EditCategory = ({ params }) => {
     const [category, setCategory] = useState(null);

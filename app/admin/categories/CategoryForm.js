@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import DynamicPropertyInput from './DynamicPropertyInput';
+import DynamicPropertyInput from '../../../components/DynamicPropertyInput';
 
 const CategoryForm = ({ data, method }) => {
     const [name, setName] = useState(data ? data.name : '');

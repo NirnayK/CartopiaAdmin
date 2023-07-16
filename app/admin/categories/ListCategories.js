@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useState, useEffect } from 'react'
-import DisplayItems from '@/components/DisplayItems';
+import DisplayItemsTable from '@/components/DisplayItemsTable';
 
 
 const ListCategories = () => {
@@ -48,7 +48,7 @@ const ListCategories = () => {
                     Search
                 </button>
             </form >
-            {filteredCategories && <DisplayItems items={filteredCategories} source={'categories'} headings={['Category Name']} />}
+            {filteredCategories && <DisplayItemsTable items={filteredCategories} source={'categories'} headings={['Category Name']} />}
         </>
     );
 }

@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import CustomSessionProvider from '@/components/CustomSessionProvider'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,9 +15,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="bg-white">
       <CustomSessionProvider>
-        <body className={inter.className}>
-          {children}
-        </body>
+        <Suspense fallback={<div>Loading...</div>}>
+          <body className={inter.className}>
+            {children}
+          </body>
+        </Suspense>
       </CustomSessionProvider>
     </html>
   )

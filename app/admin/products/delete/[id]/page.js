@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import ProductForm from '@/components/ProductForm';
+import ProductForm from '@/app/admin/products/ProductForm';
 
 const ProductDelete = ({ params }) => {
     const [product, setProduct] = useState(null);
