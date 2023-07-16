@@ -79,7 +79,7 @@ const CategoryForm = ({ data, method }) => {
                 <DynamicPropertyInput values={values} setValues={setValues} method={method} />
 
                 <div className="mt-4">
-                    <button className="bg-green-500 text-white hover:bg-green-600 w-28 btn mr-2" type="submit">
+                    <button className="purplegradient opacity-80 hover:opacity-100 w-28 btn mr-2" type="submit">
                         {method === 'POST' ? 'Create' : method === 'PUT' ? 'Update' : 'Delete'}
                     </button>
                     <button type="button" className="bg-gray-500 text-white hover:bg-gray-600 w-28 btn" onClick={() => router.back()}>
@@ -100,7 +100,7 @@ const CategoryForm = ({ data, method }) => {
                             <button className="bg-red-500 text-white hover:bg-red-600 btn mr-2" onClick={() => handleConfirmation(true)}>
                                 Yes
                             </button>
-                            <button className="bg-green-500 text-white hover:bg-green-600 btn" onClick={() => handleConfirmation(false)}>
+                            <button className="purplegradient opacity-80 hover:opacity-100 btn" onClick={() => handleConfirmation(false)}>
                                 Go Back
                             </button>
                         </div>

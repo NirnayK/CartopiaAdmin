@@ -44,7 +44,7 @@ const ListCategories = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <button className="bg-green-500 text-white hover:bg-green-600 btn mr-2" type="submit">
+                <button className="purplegradient opacity-80 hover:opacity-100 btn mr-2" type="submit">
                     Search
                 </button>
             </form >

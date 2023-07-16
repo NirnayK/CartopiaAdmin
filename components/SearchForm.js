@@ -6,61 +6,77 @@ const SearchForm = (props) => {
         setSearch,
         categories,
         selectedCategory,
-        setSelectedCategory,
         handleSubmit,
+        handleCategoryChange,
+        selectedCategoryValues,
+        properties,
+        setProperties,
     } = props;
-
     return (
-        <form className="flex justify-between gap-2 items-center" onSubmit={handleSubmit}>
+        <form className="md:flex md:items-baseline w-auto flex-wrap flex-col space-y-2 md:flex-row md:gap-2" onSubmit={handleSubmit}>
+
             <input
-                className="mb-2 w-full"
+                className="w-auto"
                 type="text"
                 id="name"
                 placeholder="Search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
-            <>
-                <label className='block mb-1' htmlFor="category">Category:</label>
+
+            <section className='flex items-baseline gap-2'>
+                <label htmlFor="category">Category:</label>
                 <select
+                    className="w-auto"
                     id="category"
-                    name="Category"
-                    required
+                    name="category"
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    onChange={(e) => handleCategoryChange(e)}
                 >
-                    <option value="ALL">All</option>
-                    {categories.map((category) => (
+                    <option value="">ALL</option>
+                    {categories && categories.map((category) => (
                         <option key={category._id} value={category._id}>
                             {category.name}
                         </option>
                     ))}
-
                 </select>
-            </>
-            {
-                selectedCategory !== "ALL" && false &&
-                <div className="flex wrap">
+            </section>
 
-                    {categories.map((category) => (
-                        <div className="flex items-center gap-1">
-                            <label className='block mb-1' htmlFor={category.name}>{category.name}</label>
-                            <select>
-                                <option value="ALL">All</option>
-                                {category.subCategories.map((subCategory) => (
-                                    <option key={subCategory._id} value={subCategory._id}>
-                                        {subCategory.name}
+            {selectedCategoryValues && (
+                <div className='flex flex-col md:items-baseline md:flex-row md:flex-wrap md:gap-3 p-2'>
+                    {selectedCategoryValues.map((property) => (
+                        <div className='flex flex-wrap gap-3' key={property.name}>
+                            <label htmlFor={property.name}>{property.name}:</label>
+                            <select
+                                className="w-auto"
+                                id={property.name}
+                                name={property.name}
+                                value={properties[[property.name]]}
+                                onChange={(e) => setProperties((prev) => {
+                                    const prevProperties = { ...prev };
+                                    prevProperties[property.name] = e.target.value;
+                                    return prevProperties;
+                                })}
+                            >
+                                <option value=''>ALL</option>
+                                {property.values.map((val) => (
+                                    <option key={val} value={val}>
+                                        {val}
                                     </option>
                                 ))}
                             </select>
                         </div>
                     ))}
                 </div>
+            )
             }
-            <button className="bg-green-500 text-white hover:bg-green-600 btn mr-2" type="submit">
+            <button className="purplegradient opacity-80 hover:opacity-100 btn flex-grow-0" type="submit">
                 Search
             </button>
-        </form >
+
+        </form>
+
+
     )
 }
 

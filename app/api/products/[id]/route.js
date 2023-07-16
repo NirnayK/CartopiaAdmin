@@ -22,18 +22,26 @@ export const GET = async (req, { params }) => {
 
 export const PUT = async (req, { params }) => {
     try {
+        const data = await req.json();
+        console.log(data.images);
         await mongooseConnect();
         try {
-            const product = await Product.findById(params.id);
-            if (!product) return new Response("Prdouct Not Found", { status: 404 });
-            const data = await req.json();
-            product.name = data.name;
-            product.price = data.price;
-            product.description = data.description;
-            product.category = data.category;
-            product.company = data.company;
-            await product.save();
-            return new Response(JSON.stringify(product), { status: 200 });
+            const updatedProduct = await Product.findOneAndUpdate(
+                { _id: params.id },
+                {
+                    $set: {
+                        name: data.name,
+                        price: data.price,
+                        description: data.description,
+                        category: data.category,
+                        properties: data.properties,
+                        images: data.images,
+                    }
+                },
+                { new: true } // To return the updated document
+            );
+            console.log(updatedProduct);
+            return new Response(JSON.stringify(updatedProduct), { status: 200 });
         }
         catch (error) {
             console.error(error);

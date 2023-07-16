@@ -8,9 +8,12 @@ import axios from 'axios';
 const ListProducts = () => {
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('ALL');
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategoryValues, setSelectedCategoryValues] = useState(null);
+    const [properties, setProperties] = useState({});
+
 
     useEffect(() => {
         const getCategories = async () => {
@@ -38,30 +41,50 @@ const ListProducts = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const filtered = products.filter((product) => {
-            const isMatch =
-                (search === '' || category.name.toUpperCase().startsWith(search.toUpperCase())) &&
-                (selectedCategory === 'ALL' || product.category._id === selectedCategory);
-            return isMatch;
-        });
-        setFilteredProducts(filtered);
+
     };
 
+    const handleCategoryChange = (e) => {
+        e.preventDefault();
+        const selectedCategoryId = e.target.value;
+        setSelectedCategory(selectedCategoryId);
+
+        // Find the selected category
+        if (selectedCategoryId === '') {
+            setSelectedCategoryValues(null);
+            setProperties({});
+            return;
+        }
+        const currentSelectedCategory = categories.find((category) => category._id === selectedCategoryId);
+
+        setSelectedCategoryValues(currentSelectedCategory.values);
+
+        // Create properties object with empty values
+        const updatedProperties = {};
+        currentSelectedCategory.values.forEach((property) => {
+            updatedProperties[property.name] = '';
+        });
+
+        setProperties(updatedProperties);
+    };
 
     const formProps = {
         search: search,
         setSearch: setSearch,
         categories: categories,
         selectedCategory: selectedCategory,
-        setSelectedCategory: setSelectedCategory,
         handleSubmit: handleSubmit,
+        handleCategoryChange: handleCategoryChange,
+        selectedCategoryValues: selectedCategoryValues,
+        properties: properties,
+        setProperties: setProperties,
     };
 
     return (
-        <>
-            <SearchForm {...formProps} className="mb-2" />
+        <div className='space-y-3'>
+            <SearchForm {...formProps} />
             <DisplayItems items={filteredProducts} source={"products"} headings={["Product Name", "Category", "Company"]} />
-        </>
+        </div>
     );
 };
 

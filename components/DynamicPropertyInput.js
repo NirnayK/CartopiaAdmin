@@ -42,21 +42,29 @@ const DynamicPropertyInput = ({ values, setValues, method }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col space-y-3">
       {values.map((property, propertyIndex) => (
         <div className="flex flex-col gap-2 p-3 rounded-lg border border-blue-300" key={propertyIndex}>
 
+          {method !== "DELETE" && propertyIndex > 0 && (
+            <button
+              className="text-lg text-red-500 hover:text-red-600 mr-2 md:hidden"
+              onClick={(e) => removeProperty(e, propertyIndex)}
+            >
+              - Remove Property
+            </button>
+          )}
           <div className="flex items-center gap-3">
-            <label className="text-lg" htmlFor={`propertyName${propertyIndex}`}>
-              {`Property ${propertyIndex + 1}`}:
+            <label className="text-sm md:text-lg" htmlFor={`propertyName${propertyIndex}`}>
+              Property:
             </label>
             <input
               type="text"
               id={`propertyName${propertyIndex}`}
-              className="flex-grow text-md"
+              className="text-md md:flex-grow"
               value={property.name}
               required
-              readOnly={method === "DELETE"}
+              readOnly={method === "DELETE" || propertyIndex === 0}
               onChange={(e) => handleChange(e, propertyIndex)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -65,24 +73,24 @@ const DynamicPropertyInput = ({ values, setValues, method }) => {
               }
               }
             />
-            {method !== "DELETE" && values.length > 1 && (
+            {method !== "DELETE" && propertyIndex > 0 && (
               <button
-                className="text-lg text-red-500 hover:text-red-600 mr-2"
+                className="text-lg text-red-500 hover:text-red-600 mr-2 hidden md:block"
                 onClick={(e) => removeProperty(e, propertyIndex)}
               >
                 - Remove Property
               </button>
             )}
           </div>
-
           <div>
             {property.values &&
               property.values.map((value, valueIndex) => (
                 <div className="mb-2 gap-2 flex items-center p-1" key={valueIndex}>
                   <label
+                    className="text-sm md:text-lg"
                     htmlFor={`propertyValue${propertyIndex}_${valueIndex}`}
                   >
-                    {`Value ${valueIndex + 1}`}:
+                    {`${valueIndex + 1}`}:
                   </label>
                   <input
                     type="text"
@@ -104,7 +112,7 @@ const DynamicPropertyInput = ({ values, setValues, method }) => {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="w-8 h-8 text-red-500 hover:text-red-600 cursor-pointer"
+                      className="w-8 h-8  text-red-500 hover:text-red-600 cursor-pointer"
                       onClick={(e) => removeValue(e, propertyIndex, valueIndex)}
                     >
                       <path

@@ -21,7 +21,14 @@ const productSchema = new mongoose.Schema({
         ref: 'Category',
         required: true
     },
-    properties: { type: Object, required: true }
+    properties: {
+        type: Object,
+        required: true
+    },
+    images: {
+        type: [String],
+        required: true
+    },
 });
 
 module.exports = models.Product || mongoose.model('Product', productSchema);

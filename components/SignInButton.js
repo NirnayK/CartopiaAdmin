@@ -7,14 +7,14 @@ const SignInButton = () => {
     if (session) {
         return (
             <>
-                <button className="bg-green-500 text-white hover:bg-green-600 btn mr-2" onClick={() => signOut({ callbackUrl: "/" })}>
+                <button className="purplegradient opacity-80 hover:opacity-100 btn mr-2" onClick={() => signOut({ callbackUrl: "/" })}>
                     Log Out
                 </button>
             </>
         )
     }
     return (
-        <button className="bg-green-500 text-white hover:bg-green-600 btn mr-2" onClick={() => signIn('google', { callbackUrl: "/admin" })}>
+        <button className="purplegradient opacity-80 hover:opacity-100 btn mr-2" onClick={() => signIn('google', { callbackUrl: "/admin" })}>
             Log In
         </button >
     )

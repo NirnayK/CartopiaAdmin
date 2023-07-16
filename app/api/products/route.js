@@ -4,7 +4,8 @@ import Product from "@/models/products.js";
 export const POST = async (req) => {
     try {
         const jsonData = await req.json();
-        const { name, price, description, category, properties } = jsonData;
+        const { name, price, description, category, properties, images } = jsonData;
+        console.log(images);
         await mongooseConnect();
 
         try {
@@ -13,8 +14,10 @@ export const POST = async (req) => {
                 price,
                 description,
                 category,
-                properties
+                properties,
+                images,
             });
+            console.log("New Product Created", NewProduct);
             return new Response(JSON.stringify(NewProduct), { status: 201 });
         }
         catch (error) {
