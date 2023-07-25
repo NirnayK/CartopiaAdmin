@@ -1,72 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
-  --gradient-purple: linear-gradient(to right, rgba(132, 82, 247, 0.8), rgba(95, 26, 255, 0.8));
-}
-
-/* @media (prefers-color-scheme: dark) {
+ 
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --ring: 215 20.2% 65.1%;
+ 
+    --radius: 0.5rem;
   }
-} */
-.purplegradient {
-  background: var(--gradient-purple);
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-
-}
-
-input,
-textarea {
-  @apply border-2 border-gray-200 rounded-md p-1;
-}
-
-input:focus,
-textarea:focus {
-  @apply border-gray-700;
-}
-
-@layer components {
-  .btn {
-    @apply font-bold uppercase text-white text-center text-sm px-6 py-2 rounded-full;
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+ 
+    --ring: 217.2 32.6% 17.5%;
   }
-
-  .btn:hover {
-    @apply shadow-md outline-none;
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
   }
-
-  .btn:focus {
-    @apply ease-linear transition-all duration-150;
+  body {
+    @apply bg-background text-foreground;
   }
-
-}
-
-label {
-  @apply text-gray-700;
-}
-
-
-select {
-  @apply border-2 border-gray-200 p-1 mb-2 w-full;
-}
-
-th {
-  @apply p-2 bg-gray-100;
-}
-
-td {
-  @apply p-2 text-center;
-}
-
-tr:nth-child(even) {
-  @apply bg-gray-100;
 }
