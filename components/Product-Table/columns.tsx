@@ -25,8 +25,9 @@ export interface ProductDocument {
 }
 
 const addToFeature = async (id: string) => {
+  console.log(id);
   try {
-    await axios.post("/api/feature" + id);
+    await axios.post("/api/feature/" + id);
   } catch (err) {
     console.log(err);
   }
