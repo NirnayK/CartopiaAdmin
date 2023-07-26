@@ -2,7 +2,6 @@ import { mongooseConnect } from "@/lib/mongoose";
 import FeatureProduct from "@/models/feature-product";
 import { ProductDocument, columns } from "./columns";
 import { DataTable } from "@/components/data-table";
-import Product from "@/models/product";
 
 type category = {
   _id: string;
@@ -21,7 +20,7 @@ export default async function FeaturedTable() {
 
   const getProducts = async (): Promise<OgProductDocument[]> => {
     try {
-      return await Product.find({})
+      return await FeatureProduct.find({})
         .select("name category price _id") // Select only the specified fields
         .populate({ path: "category", select: "name" })
         .lean();
@@ -45,6 +44,7 @@ export default async function FeaturedTable() {
 
   return (
     <div className="container mx-auto py-10">
+      <h1 className="text-xl md:text-2xl font-bold">Featured Products</h1>
       <DataTable columns={columns} data={data} />
     </div>
   );

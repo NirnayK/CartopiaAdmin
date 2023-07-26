@@ -1,6 +1,7 @@
-import { mongooseConnect } from "@/lib/mongoose";
-import Product from "@/models/product";
 import { ObjectId } from "mongodb";
+import Product from "@/models/product";
+import { mongooseConnect } from "@/lib/mongoose";
+import FeatureProduct from "@/models/feature-product";
 
 function capitalize(input: string): string {
   return input
@@ -55,6 +56,20 @@ export const PUT = async (
         },
         { new: true } // To return the updated document
       );
+      await FeatureProduct.findOneAndUpdate(
+        { _id: params.id },
+        {
+          $set: {
+            name: name,
+            price: data.price,
+            description: data.description,
+            category: category,
+            properties: data.properties,
+            images: data.images,
+          },
+        },
+        { new: true } // To return the updated document
+      );
       return new Response(JSON.stringify(updatedProduct), { status: 200 });
     } catch (error) {
       console.log("Error in updating product");
@@ -76,6 +91,7 @@ export const DELETE = async (
     await mongooseConnect();
     try {
       const deletedProduct = await Product.findByIdAndDelete(params.id);
+      await FeatureProduct.findByIdAndDelete(params.id);
       return new Response(JSON.stringify(deletedProduct), { status: 200 });
     } catch (error) {
       console.log("Error in deleting product");

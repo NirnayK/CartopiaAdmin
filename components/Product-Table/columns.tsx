@@ -5,6 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import axios from "axios";
 
 import {
   DropdownMenu,
@@ -22,6 +23,14 @@ export interface ProductDocument {
   category_id: string;
   category: string;
 }
+
+const addToFeature = async (id: string) => {
+  try {
+    await axios.post("/api/feature" + id);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const columns: ColumnDef<ProductDocument>[] = [
   {
@@ -69,6 +78,9 @@ export const columns: ColumnDef<ProductDocument>[] = [
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
+      const handleAddToFeature = async () => {
+        await addToFeature(product._id);
+      };
       return (
         <div className="text-right">
           <DropdownMenu>
@@ -91,8 +103,11 @@ export const columns: ColumnDef<ProductDocument>[] = [
                   Delete
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem className="cursor-pointer">
-                Add to Feature
+              <DropdownMenuItem
+                onClick={handleAddToFeature}
+                className="cursor-pointer"
+              >
+                Add to Featured
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

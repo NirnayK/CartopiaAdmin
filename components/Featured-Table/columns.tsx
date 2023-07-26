@@ -1,10 +1,10 @@
 "use client";
 
+import axios from "axios";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { mongooseConnect } from "@/lib/mongoose";
-import FeatureProduct from "@/models/feature-product";
 
 export interface ProductDocument {
   _id: string;
@@ -24,10 +22,9 @@ export interface ProductDocument {
   categoryName: string;
 }
 
-const removefromFeature = async (id: string) => {
+const removeFromFeature = async (id: string) => {
   try {
-    await mongooseConnect();
-    await FeatureProduct.findByIdAndDelete(id);
+    await axios.delete("/api/feature/" + id);
   } catch (err) {
     console.log(err);
   }
@@ -79,7 +76,9 @@ export const columns: ColumnDef<ProductDocument>[] = [
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
-
+      const handleRemoveFromFeature = async () => {
+        await removeFromFeature(product._id);
+      };
       return (
         <div className="text-right">
           <DropdownMenu>
@@ -91,28 +90,22 @@ export const columns: ColumnDef<ProductDocument>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(product._id)}
-              >
-                Copy product ID
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(product.category_id)
-                }
-              >
-                Copy category ID
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href={`/products/edit/${product._id}`}>Edit</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={`/products/delete/${product._id}`}>Delete</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => removefromFeature(product._id)}>
-                Remove from Feature
+              <Link href={"/products/edit/" + product._id}>
+                <DropdownMenuItem className="cursor-pointer">
+                  Edit
+                </DropdownMenuItem>
+              </Link>
+              <Link href={"/products/delete/" + product._id}>
+                <DropdownMenuItem className="cursor-pointer">
+                  Delete
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem
+                onClick={handleRemoveFromFeature}
+                className="cursor-pointer"
+              >
+                Remove to Featured
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
