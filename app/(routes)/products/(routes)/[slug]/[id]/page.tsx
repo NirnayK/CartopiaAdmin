@@ -70,7 +70,6 @@ const page = async ({ params }: { params: { slug: string; id: string } }) => {
     images: rawproduct.images,
   };
 
-  console.log();
   return (
     <ProductForm
       proddata={product}

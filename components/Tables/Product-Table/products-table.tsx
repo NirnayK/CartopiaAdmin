@@ -44,7 +44,7 @@ export default async function ProductTable() {
   });
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container">
       <h1 className="text-xl md:text-2xl ml font-bold">Products</h1>
       <DataTable columns={columns} data={data} />
     </div>

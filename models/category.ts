@@ -1,4 +1,4 @@
-import mongoose, { Document, models, model, Model, Schema } from "mongoose";
+import { Document, models, model, Model, Schema } from "mongoose";
 
 // Define the category values schema
 export interface CategoryValue {

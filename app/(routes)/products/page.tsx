@@ -1,5 +1,5 @@
-import FeaturedTable from "@/components/Featured-Table/featured-table";
-import ProductTable from "@/components/Product-Table/products-table";
+import FeaturedTable from "@/components/Tables/Featured-Table/featured-table";
+import ProductTable from "@/components/Tables/Product-Table/products-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

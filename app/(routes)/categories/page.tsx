@@ -1,4 +1,4 @@
-import CategoryTable from "@/components/Category-Table/category-table";
+import CategoryTable from "@/components/Tables/Category-Table/category-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
