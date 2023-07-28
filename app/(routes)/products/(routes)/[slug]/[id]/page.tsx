@@ -1,8 +1,7 @@
 import Category from "@/models/category";
-import Product from "@/models/product";
 import { mongooseConnect } from "@/lib/mongoose";
-import { ProductProperties } from "@/models/product";
 import ProductForm from "@/components/Forms/product-form";
+import Product, { ProductProperties } from "@/models/product";
 import { CategoryDocument } from "@/components/Forms/category-form";
 
 interface ProductData {
