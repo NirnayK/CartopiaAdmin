@@ -1,7 +1,9 @@
-import FeaturedTable from "@/components/Tables/Featured-Table/featured-table";
-import ProductTable from "@/components/Tables/Product-Table/products-table";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+import TableSkeleton from "@/components/Skeletons/table-skeleton";
+import ProductTable from "@/components/Tables/Product-Table/products-table";
+import FeaturedTable from "@/components/Tables/Featured-Table/featured-table";
 
 const page = () => {
   return (
@@ -14,9 +16,16 @@ const page = () => {
         </Link>
       </div>
       {/* Feature Table */}
-      <FeaturedTable />
-      {/* Table of products*/}
-      <ProductTable />
+      <div className="flex-col space-y-20">
+        <Suspense fallback={<TableSkeleton />}>
+          <FeaturedTable />
+        </Suspense>
+
+        {/* Table of products*/}
+        <Suspense fallback={<TableSkeleton />}>
+          <ProductTable />
+        </Suspense>
+      </div>
     </div>
   );
 };

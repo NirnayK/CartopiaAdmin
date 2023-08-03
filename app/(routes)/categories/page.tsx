@@ -1,6 +1,8 @@
-import CategoryTable from "@/components/Tables/Category-Table/category-table";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+import CategoryTable from "@/components/Tables/Category-Table/category-table";
+import TableSkeleton from "@/components/Skeletons/table-skeleton";
 
 const page = () => {
   return (
@@ -12,8 +14,12 @@ const page = () => {
           <Button variant="outline">ADD</Button>
         </Link>
       </div>
-      {/* Table of products*/}
-      <CategoryTable />
+      {/* Table of categories*/}
+      <div className="space-y-20">
+        <Suspense fallback={<TableSkeleton />}>
+          <CategoryTable />
+        </Suspense>
+      </div>
     </div>
   );
 };
