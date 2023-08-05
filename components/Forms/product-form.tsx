@@ -87,8 +87,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
     proddata?.properties || {}
   );
 
-  console.log("proddata", proddata);
-
   const handleCategoryChange = (categoryId: string) => {
     console.log("categoryId", categoryId);
     if (categoryId === "") {
@@ -164,15 +162,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
       images: [...currentImages, ...newImages],
     };
 
-    console.log("Hello we have reached on submit", product);
-
     try {
       switch (method) {
         case "POST":
           await axios.post("/api/products", product);
           break;
         case "EDIT":
-          console.log("called edit");
           await axios.put(`/api/products/${proddata?._id}`, product);
           break;
         case "DELETE":
