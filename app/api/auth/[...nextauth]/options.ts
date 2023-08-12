@@ -19,8 +19,8 @@ export const options: NextAuthOptions = {
       async authorize(credentials) {
         const user = {
           id: "47",
-          username: "adminCartopia",
-          password: "admin@cartopia123",
+          username: process.env.USERNAME as string,
+          password: process.env.PASSWORD as string,
         };
 
         if (
